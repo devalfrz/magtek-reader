@@ -93,6 +93,23 @@ def getargs(argv):
             global output_file
             output_file = arg
 
+def kill_old_processes(process_name,os_name):
+    ### Terminates all processes with the same name ###
+    if os_name == 'Windows':
+        tasks = os.popen('tasklist')
+
+        pattern = '' + process_name + '\s*(\d+)'
+        pids = []
+        
+        for task in tasks:
+            m = re.match(pattern, task)
+            if m:
+                pids.insert(0,m.group(1))
+        
+        for pid in pids[1:]:
+            print "kill process %s" % (pid,)
+            os.system("TASKKILL /PID %s /F" % (pid,))
+
 def usage():
     print """
 NAME
@@ -133,6 +150,8 @@ GPL                               Jun 2015                                   GPL
 
 
 if __name__ == "__main__":
+    
+    kill_old_processes(sys.argv[0],platform.system())
     
     getargs(sys.argv[1:])
 
