@@ -107,7 +107,6 @@ def kill_old_processes(process_name,os_name):
                 pids.insert(0,m.group(1))
         
         for pid in pids[1:]:
-            print "kill process %s" % (pid,)
             os.system("TASKKILL /PID %s /F" % (pid,))
 
 def usage():
