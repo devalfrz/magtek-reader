@@ -1,10 +1,11 @@
-#!/usr/bin/python
+#\!/usr/bin/python
 import hid
 import time
 import sys
 import getopt
 import os
 import platform
+import re
 
 # Global Variables #
 VENDOR_ID = 0x0801
@@ -98,18 +99,26 @@ def getargs(argv):
 def kill_old_processes(process_name,os_name):
     ### Terminates all processes with the same name ###
     if os_name == 'Windows':
-        tasks = os.popen('tasklist')
+	list_process = 'tasklist'
+        kill_process = "TASKKILL /PID %s /F"
+	pattern = '' + process_name + '\s*(\d+)'
+    else:
+	list_process = 'ps ax'
+        kill_process = "kill %s"
+	p_name = os.path.basename(os.path.normpath(process_name))
+	pattern = '\s*(\d+)\s[?a-zA-X0-9/\s+:]*python\s[/a-zA-Z-\\\\\s]*' + p_name
 
-        pattern = '' + process_name + '\s*(\d+)'
-        pids = []
+    tasks = os.popen(list_process)
+    pids = []
+    for task in tasks:
+        m = re.match(pattern, task)
+        if m:
+            pids.insert(0,m.group(1))
         
-        for task in tasks:
-            m = re.match(pattern, task)
-            if m:
-                pids.insert(0,m.group(1))
-        
-        for pid in pids[1:]:
-            os.system("TASKKILL /PID %s /F" % (pid,))
+    for pid in pids[1:]:
+        os.system(kill_process % (pid,))
+
+
 
 def usage():
     print """
