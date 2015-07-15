@@ -3,6 +3,8 @@ import hid
 import time
 import sys
 import getopt
+import os
+import platform
 
 # Global Variables #
 VENDOR_ID = 0x0801
