@@ -14,10 +14,7 @@ sudo easy_install pip
 sudo pip install cython
 
 # Download and install cython-hidapi 
-git clone https://github.com/gbishop/cython-hidapi
-cd cython-hidapi
-sudo python setup-mac.py build # Or setup-linux.py
-sudo python setup-mac.py install # Or setup-linux.py
+sudo pip install hidapi
 
 # Download magtek-reader.py
 git clone https://github.com/devalfrz/magtek-reader
