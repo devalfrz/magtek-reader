@@ -51,6 +51,7 @@ def read_hid_device():
         print 0
         try:
             h = hid.device(VENDOR_ID, PRODUCT_ID)
+            h.open(VENDOR_ID, PRODUCT_ID)
             print "Device opened..."
 
             ### non-blocking mode
