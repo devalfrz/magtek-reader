@@ -1,4 +1,4 @@
-#\!/usr/bin/python
+#!/usr/bin/python
 import hid
 import time
 import sys
